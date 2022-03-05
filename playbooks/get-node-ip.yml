@@ -1,0 +1,8 @@
+# to install Docker
+
+---
+- name: Get ndoe ip
+  hosts:
+    - boot
+  tasks:
+    - debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']

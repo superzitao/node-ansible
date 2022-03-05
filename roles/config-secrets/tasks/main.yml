@@ -48,6 +48,17 @@
   args:
     chdir: "{{ ansible_env.HOME }}/jury-install/"
 
+- name: Copy get-node-address.sh to remote
+  copy:
+    src: "{{playbook_dir}}/../manifests/get-node-address.sh"
+    dest: "{{ ansible_env.HOME }}/jury-install/"
+    mode: 0755
+
+- name: Execute get-node-address.sh
+  command: "bash get-node-address.sh {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+  args:
+    chdir: "{{ ansible_env.HOME }}/jury-install/"
+
 - local_action: file path="{{ playbook_dir }}/../manifests/secrets_nodeinfo_output" state=absent
 
 - name: Feth secrets_nodeinfo_output from remote to local.
@@ -55,4 +66,9 @@
     src: "{{ ansible_env.HOME }}/jury-install/secrets_nodeinfo_output-{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
     dest: "{{ playbook_dir }}/../manifests/secrets_nodeinfo_output/"
     flat: yes
-    
+
+- name: Feth node_address_output from remote to local.
+  ansible.builtin.fetch:
+    src: "{{ ansible_env.HOME }}/jury-install/node_address_output-{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    dest: "{{ playbook_dir }}/../manifests/secrets_nodeinfo_output/"
+    flat: yes

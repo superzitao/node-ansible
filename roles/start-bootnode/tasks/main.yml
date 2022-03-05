@@ -17,11 +17,6 @@
     group: "{{ ansible_ssh_user }}"
     mode: '0755'
 
-# - name: Generate service files
-#   command: "chdir={{ ansible_env.HOME }}/jury-install/"
-#   with_items:
-#     - bash service.sh
-
 - name: Generate service files
   ansible.builtin.shell:
     cmd: bash service.sh
@@ -36,5 +31,9 @@
   notify: reload jury
   become: true
 
-
-
+- name: Start jury.service 
+  become: true
+  ansible.builtin.systemd:
+    name: jury
+    state: started
+    

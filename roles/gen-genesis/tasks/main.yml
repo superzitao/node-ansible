@@ -32,6 +32,8 @@
   args:
     chdir: "{{ ansible_env.HOME }}/jury-install/"
 
+- local_action: file path="{{ playbook_dir }}/../manifests/genesis.json" state=absent
+
 - name: Feth genesis.json from remote to local.
   ansible.builtin.fetch:
     src: "{{ ansible_env.HOME }}/jury-install/genesis.json"

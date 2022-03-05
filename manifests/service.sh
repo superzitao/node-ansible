@@ -15,7 +15,7 @@ cat > jury.service <<EOF
   RestartSec=5s
   WorkingDirectory=$NODE_DIR
   ExecStartPre=/bin/chmod 0755 /usr/bin/jury
-  ExecStart=/usr/bin/jury server --data-dir /data/jury --chain $NODE_DIR/genesis.json --grpc :9632 --libp2p :1478 --jsonrpc :8545 --price-limit=100 --seal --log-level debug
+  ExecStart=/usr/bin/jury server --data-dir /data/jury --chain $NODE_DIR/genesis.json --grpc 0.0.0.0:9632 --libp2p 0.0.0.0:1478 --jsonrpc 0.0.0.0:8545 --price-limit=100 --seal --log-level debug
   Type=simple
   User=$USER
   KillSignal=SIGINT
