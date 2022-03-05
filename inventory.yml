@@ -1,0 +1,16 @@
+all:
+  hosts:
+  children:
+    build:
+      hosts:
+        34.224.85.121:
+    boot:
+      hosts:
+        34.224.85.121:
+        52.221.180.57:
+        13.229.148.204:
+        18.166.51.163:
+    validator:
+      hosts:
+        
+

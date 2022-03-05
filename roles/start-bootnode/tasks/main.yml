@@ -1,0 +1,40 @@
+---
+# tasks file for start bootnode
+
+- name: Copy genesis.json To Remote
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../manifests/genesis.json"
+    dest: "{{ ansible_env.HOME }}/jury-install/"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: '0755'
+
+- name: Copy service.sh To Remote
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../manifests/service.sh"
+    dest: "{{ ansible_env.HOME }}/jury-install/"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: '0755'
+
+# - name: Generate service files
+#   command: "chdir={{ ansible_env.HOME }}/jury-install/"
+#   with_items:
+#     - bash service.sh
+
+- name: Generate service files
+  ansible.builtin.shell:
+    cmd: bash service.sh
+    chdir: "{{ ansible_env.HOME }}/jury-install/"
+    
+- name: Setup jury.service
+  copy:
+    src: "{{ ansible_env.HOME }}/jury-install/jury.service"
+    dest: /etc/systemd/system/jury.service
+    mode: "0644"
+    remote_src: true
+  notify: reload jury
+  become: true
+
+
+

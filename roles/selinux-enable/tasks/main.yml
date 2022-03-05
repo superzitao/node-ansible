@@ -1,0 +1,13 @@
+---
+# tasks file for selinux
+
+- name: Enforcing SELinux
+  become: true
+  selinux:
+    state: enforcing
+    policy: targeted
+
+- name: Rebooting the machine to apply the changes
+  reboot:
+  become: true
+

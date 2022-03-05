@@ -1,0 +1,5 @@
+---
+- name: Generate genesis.json
+  hosts: build
+  roles:
+    - role: roles/gen-genesis

@@ -1,0 +1,13 @@
+---
+ansible_user: centos
+jury_branch: "dcf23e8b6c9cbc07111bddea507741f351f99564"
+
+INIT_DATA_DIR: "/data/jury"
+
+GOLANG_VERSION: "1.17.7"
+GOLANG_CHECKSUM: "sha256:02b111284bedbfa35a7e5b74a06082d18632eff824fd144312f6063943d49259"
+profile_items:
+  - regexp: "^export GOPATH="
+    line: "export GOPATH=$HOME"
+  - regexp: "^export PATH="
+    line: "export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin"

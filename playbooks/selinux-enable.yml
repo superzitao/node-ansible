@@ -1,0 +1,5 @@
+---
+- name: Enforcing SELinux
+  hosts: all
+  roles:
+    - role: roles/selinux-enable

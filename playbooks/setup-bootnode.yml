@@ -1,0 +1,5 @@
+---
+
+- name: Start BootNode
+  roles:
+    - role: roles/start-bootnode

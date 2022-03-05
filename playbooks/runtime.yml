@@ -1,0 +1,10 @@
+# to install Docker
+
+---
+- name: Install Docker
+  become: true
+  become_method: sudo
+  hosts:
+    - all
+  roles:
+    - role: roles/docker

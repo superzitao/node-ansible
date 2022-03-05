@@ -1,0 +1,6 @@
+---
+
+- name: Start BootNode
+  hosts: boot
+  roles:
+    - role: roles/start-bootnode

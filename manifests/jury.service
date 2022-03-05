@@ -1,0 +1,16 @@
+[Unit]
+  Description=jury
+  StartLimitIntervalSec=500
+  StartLimitBurst=5
+
+[Service]
+  Restart=on-failure
+  RestartSec=5s
+  ExecStart=/usr/bin/jury server --data-dir /data/jury --chain /data/jury/genesis.json --price-limit=100 --seal --log-level debug
+  Type=simple
+  User=$USER
+  KillSignal=SIGINT
+  TimeoutStopSec=120
+
+[Install]
+  WantedBy=multi-user.target

@@ -1,0 +1,5 @@
+---
+- name: Disabling SELinux
+  hosts: all
+  roles:
+    - role: roles/selinux-disable

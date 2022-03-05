@@ -1,0 +1,8 @@
+---
+- name: setup build evn & build jury
+  hosts: build
+  roles:
+    - role: roles/install-dependencies
+    - role: roles/go
+    # - role: roles/docker
+    - role: roles/build-jury

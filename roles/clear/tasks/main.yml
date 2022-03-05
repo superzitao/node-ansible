@@ -1,0 +1,17 @@
+---
+# tasks file for generate genesis.json
+
+- name: Remove jury-install directory
+  file:
+    path: "{{ ansible_env.HOME }}/jury-install"
+    state: absent
+
+- name: Remove data directory
+  become: true
+  file:
+    path: "{{ INIT_DATA_DIR }}"
+    state: absent
+
+
+
+

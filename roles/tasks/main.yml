@@ -1,0 +1,161 @@
+---
+# tasks file for boot
+
+- name: Test hosts list
+  connection: local
+  debug:
+    msg: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+
+- name: Test inventory_hostname
+  connection: local
+  debug:
+    msg: "{{ inventory_hostname }}"
+
+- name: Copy SSH public key file
+  hosts: build
+  copy:
+    # content: "{{ git_ssh_public_key }}"
+    src: "{{playbook_dir}}/../abraham_rsa.pub"
+    dest: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+    mode: 0644
+
+- name: Copy SSH private key file
+  hosts: build
+  copy: 
+    # content: "{{ git_ssh_key }}"
+    src: "{{playbook_dir}}/../abraham_rsa"
+    dest: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+    mode: 0600
+
+- name: Cloning the Jury(Private Repo)
+  hosts: build
+  git: 
+    repo: "git@github.com:doge-evm/jury.git"
+    dest: "{{ ansible_env.HOME }}/jury"
+    force: yes
+    version: "{{ jury_branch }}"
+    depth: 1
+    accept_hostkey: yes
+    clone: yes
+
+# - name: Cloning the Jury
+#   git:
+#     repo: "https://github.com/doge-evm/jury.git"
+#     dest: "{{ ansible_env.HOME }}/jury"
+#     force: yes
+#     version: "{{ jury_branch }}"
+
+- name: Build Jury
+  hosts: build
+  register: command_output
+  ansible.builtin.shell:
+    cmd: source ~/xiyou && /usr/local/go/bin/go build -o jury main.go
+    chdir: "{{ ansible_env.HOME }}/jury"
+
+- name: Feth jury from remote to local.
+  hosts: build
+  ansible.builtin.fetch:
+    src: "{{ ansible_env.HOME }}/jury/jury"
+    dest: "{{ playbook_dir }}/../manifests/"
+    flat: yes
+
+- name: Copy jury to remote
+  copy:
+    src: "{{playbook_dir}}/../manifests/jury"
+    dest: "{{ ansible_env.HOME }}/"
+    mode: 0755
+
+- name: Creating symlink for jury
+  file:
+    src: "{{ ansible_env.HOME }}/jury"
+    dest: "/usr/bin/jury"
+    state: link
+  become: true
+
+- name: Remove old secrets directory
+  become: true
+  file:
+    path: "{{ INIT_DATA_DIR }}"
+    state: absent
+
+- name: Create secrets directory
+  become: true
+  file:
+    path: "{{ INIT_DATA_DIR }}"
+    state: directory
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+
+- name: Init Secrets
+  shell: /usr/bin/jury secrets init --data-dir "{{ INIT_DATA_DIR }}" > "{{ INIT_DATA_DIR }}/init_secrets_output-{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+
+- name: Copy get-secrets-nodeinfo.sh to remote
+  copy:
+    src: "{{playbook_dir}}/../manifests/get-secrets-nodeinfo.sh"
+    dest: "{{ INIT_DATA_DIR }}/"
+    mode: 0755
+
+- name: Execute get-secrets-nodeinfo.sh
+  command: "bash get-secrets-nodeinfo.sh {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+  args:
+    chdir: "{{ INIT_DATA_DIR }}"
+
+- local_action: file path="{{ playbook_dir }}/../manifests/secrets_nodeinfo_output" state=absent
+
+- name: Feth secrets_nodeinfo_output from remote to local.
+  ansible.builtin.fetch:
+    src: "{{ INIT_DATA_DIR }}/secrets_nodeinfo_output-{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    dest: "{{ playbook_dir }}/../manifests/secrets_nodeinfo_output/"
+    flat: yes
+
+- name: Remove old secrets_nodeinfo_output directory
+  file:
+    path: "{{ INIT_DATA_DIR }}/secrets_nodeinfo_output"
+    state: absent
+
+- name: Copy secrets_nodeinfo_output folder To Remote
+  hosts: build
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../manifests/secrets_nodeinfo_output"
+    dest: "{{ INIT_DATA_DIR }}/"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: '0644'
+
+- name: Copy jury-gen-genesis.sh To Remote
+  hosts: build
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../manifests/jury-gen-genesis.sh"
+    dest: "{{ INIT_DATA_DIR }}/"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: 0755
+
+- name: Remove genesis.json
+  hosts: build
+  file:
+    path: "{{ INIT_DATA_DIR }}/genesis.json"
+    state: absent
+
+- name: Execute jury-gen-genesis.sh
+  hosts: build
+  command: "bash jury-gen-genesis.sh "
+  args:
+    chdir: "{{ INIT_DATA_DIR }}"
+
+- name: Feth genesis.json from remote to local.
+  hosts: build
+  ansible.builtin.fetch:
+    src: "{{ INIT_DATA_DIR }}/genesis.json"
+    dest: "{{ playbook_dir }}/../manifests/genesis.json"
+    flat: yes
+
+- name: Feth genesis.json from remote to local.
+  hosts: build
+  ansible.builtin.fetch:
+    src: "{{ INIT_DATA_DIR }}/genesis.json"
+    dest: "{{ playbook_dir }}/../manifests/genesis.json"
+    flat: yes
+
+
+

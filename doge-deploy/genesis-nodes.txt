@@ -1,0 +1,85 @@
+node1:
+16Uiu2HAmR3rHnF8G8TMewrRC6U32Q3oPQtaBsj5va1UDciWZhVWd
+validator1:
+0xcFC21A23Bc910126Eab837f0eCB0707FD52B8680
+ip:
+172.51.0.11
+
+
+
+node2:
+16Uiu2HAm4o59innyfrfs1D69FcLTEyYFUiiRWQ5VX5C2x13CmBkU
+validator2:
+0x27F167c9feCa41f5f2F5ce369E5cdfBfB477AC2a
+ip:
+172.51.0.12
+
+
+
+node3:
+16Uiu2HAm4hJkPvGfXYYAbFShAuC58ij15m6XisojAtYJCcJMSEyM
+validator3:
+0x2283a9d1E2F5B61beef8FD97097F070B7dD549bE
+ip:
+172.51.0.13
+
+
+
+node4:
+16Uiu2HAkuckWvo5sariNC3CY7Pf6xe3o2wG1wUQSXxZ3tjUgyxcu
+validator4:
+0x0432A6DFE93f1B16747B0BD92E193072d52cfCcF
+ip:
+172.51.0.14
+
+
+
+polygon-edge genesis \
+        --name doge \
+        --consensus ibft \
+        --pos \
+        --epoch-size 50 \
+        --ibft-validators-prefix-path test-chain- \
+	--bootnode /ip4/172.51.0.11/tcp/1478/p2p/16Uiu2HAmR3rHnF8G8TMewrRC6U32Q3oPQtaBsj5va1UDciWZhVWd \
+	--bootnode /ip4/172.51.0.12/tcp/1478/p2p/16Uiu2HAm4o59innyfrfs1D69FcLTEyYFUiiRWQ5VX5C2x13CmBkU \
+	--bootnode /ip4/172.51.0.13/tcp/1478/p2p/16Uiu2HAm4hJkPvGfXYYAbFShAuC58ij15m6XisojAtYJCcJMSEyM \
+	--bootnode /ip4/172.51.0.14/tcp/1478/p2p/16Uiu2HAkuckWvo5sariNC3CY7Pf6xe3o2wG1wUQSXxZ3tjUgyxcu \
+	--premine=0x32fC6Db2B0500fF103A810B46Daa26d35CE5172f:1000000000000000000000 \
+	--premine=0x69a8a1f93c0382b0e3814c2c05659AfE178538f8:1000000000000000000000 \
+	--premine=0x809D784eF89CC0378FfcF41775ea8e358dcA168F:1000000000000000000000 \
+	--premine=0x4faA20e162e4d026dC006197F4c94A9219c5fb75:1000000000000000000000 \
+	--premine=0x1b4297618913C492179C308322Aa6e66daF625D4:1000000000000000000000 \
+	--premine=0xa39b6aA2CD5139bA742f9D9cd4a72458D78d5c4E:1000000000000000000000 \
+	--premine=0xeeA13dF426dcF62999B9bFf912f58E25f4f9Ba2f:1000000000000000000000 \
+        --premine=0x6067a1C57913Fd5aB883453fA86F50bF7Ce0A14C:1000000000000000000000 \
+        --premine=0xFB38D2D7A0d6a3623359760E404bcdee841A11E8:1000000000000000000000 \
+        --chainid 1681
+
+
+jury genesis \
+        --name doge \
+        --consensus ibft \
+        --pos \
+        --epoch-size 50 \
+        --ibft-validators-prefix-path test-chain- \
+        --bootnode /ip4/172.51.0.11/tcp/1478/p2p/16Uiu2HAmR3rHnF8G8TMewrRC6U32Q3oPQtaBsj5va1UDciWZhVWd \
+        --bootnode /ip4/172.51.0.12/tcp/1478/p2p/16Uiu2HAm4o59innyfrfs1D69FcLTEyYFUiiRWQ5VX5C2x13CmBkU \
+        --bootnode /ip4/172.51.0.13/tcp/1478/p2p/16Uiu2HAm4hJkPvGfXYYAbFShAuC58ij15m6XisojAtYJCcJMSEyM \
+        --bootnode /ip4/172.51.0.14/tcp/1478/p2p/16Uiu2HAkuckWvo5sariNC3CY7Pf6xe3o2wG1wUQSXxZ3tjUgyxcu \
+        --premine=0x32fC6Db2B0500fF103A810B46Daa26d35CE5172f:1000000000000000000000 \
+        --premine=0x69a8a1f93c0382b0e3814c2c05659AfE178538f8:1000000000000000000000 \
+        --premine=0x809D784eF89CC0378FfcF41775ea8e358dcA168F:1000000000000000000000 \
+        --premine=0x4faA20e162e4d026dC006197F4c94A9219c5fb75:1000000000000000000000 \
+        --premine=0x1b4297618913C492179C308322Aa6e66daF625D4:1000000000000000000000 \
+        --premine=0xa39b6aA2CD5139bA742f9D9cd4a72458D78d5c4E:1000000000000000000000 \
+        --premine=0xeeA13dF426dcF62999B9bFf912f58E25f4f9Ba2f:1000000000000000000000 \
+        --premine=0x6067a1C57913Fd5aB883453fA86F50bF7Ce0A14C:1000000000000000000000 \
+        --premine=0xFB38D2D7A0d6a3623359760E404bcdee841A11E8:1000000000000000000000 \
+        --proposer-profit-molecular=800000000 \
+        --chainid 1681
+
+
+
+proxy tcp -p 172.21.11.221:28545 -T tcp -P 172.51.0.11:8545 &
+
+

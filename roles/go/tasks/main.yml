@@ -1,0 +1,34 @@
+---
+- name: Download Golang using get_url
+  become: yes
+  get_url:
+    url: https://go.dev/dl/go1.17.7.linux-amd64.tar.gz
+    dest: "{{ software_install_path }}"
+    mode: 0755
+    checksum: "sha256:02b111284bedbfa35a7e5b74a06082d18632eff824fd144312f6063943d49259"
+    # group: {{ ansible_ssh_user }}
+    # owner: {{ ansible_ssh_user }}
+
+# - name: Scp golang-1.17.7 package
+#   become: yes
+#   copy:
+#     src: "{{ playbook_dir }}/../manifests/go1.17.7.linux-amd64.tar.gz"
+#     dest:  "{{ software_install_path }}"
+#     mode: 0755
+
+- name: golang install
+  become: yes
+  shell: cd /usr/local/ && tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz
+
+- name: golang env config
+  become: true
+  shell: /bin/echo {{ item }} >> /etc/profile
+  with_items:
+      - export GOROOT=/usr/local/go
+      - export PATH=\$GOROOT/bin:\$PATH
+
+- name: golang test
+  register: result
+  shell: source /etc/profile &&  go version
+
+- debug: var=result.stdout

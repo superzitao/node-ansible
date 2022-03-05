@@ -1,0 +1,115 @@
+version: "3.5"
+
+networks:
+  mynet2:
+    ipam:
+      config:
+        - subnet: 172.51.0.0/16
+
+services:
+  validator-1:
+    # container_name: validator-1
+    # image: 0xpolygon/polygon-edge:0.2.1
+    image: doge-evm/jury:0fe2ccdd # share profit
+    # image: doge-evm/jury:09cc9fa # share profit cheater
+    restart: unless-stopped
+    tty: true
+    ports:
+      # - "1478:1478" # libp2p
+      - "28545:8545" # JSONRPC
+      # - "9632:9632" # GRPC
+    volumes:
+      - /data/zcc-test-2:/data/zcc-test-2
+    command:
+      - server
+      - --data-dir=/data/zcc-test-2/test-chain-1
+      - --chain=/data/zcc-test-2/genesis.json 
+      #- --grpc=172.50.0.11:9632
+      #- --libp2p=172.50.0.11:1478
+      #- --jsonrpc=172.50.0.11:8545 # would not accpet remote txs to txpool
+      - --price-limit=100
+      - --grpc=0.0.0.0:9632 
+      - --libp2p=0.0.0.0:1478
+      - --jsonrpc=0.0.0.0:8545
+      - --seal
+      - --log-level=DEBUG
+    networks:
+      mynet2:
+        ipv4_address: 172.51.0.11 # 固定IP
+
+  validator-2:
+    # container_name: validator-2
+    # image: 0xpolygon/polygon-edge:0.2.1
+    image: doge-evm/jury:0fe2ccdd
+    restart: unless-stopped
+    tty: true
+    # ports:
+      # - "1478:1478" # libp2p
+      # - "8545:8545" # JSONRPC
+      # - "9632:9632" # GRPC
+    volumes:
+      - /data/zcc-test-2:/data/zcc-test-2
+    command:
+      - server
+      - --data-dir=/data/zcc-test-2/test-chain-2
+      - --chain=/data/zcc-test-2/genesis.json 
+      - --price-limit=100
+      - --grpc=0.0.0.0:9632
+      - --libp2p=0.0.0.0:1478
+      - --jsonrpc=0.0.0.0:8545
+      - --seal
+    networks:
+      mynet2:
+        ipv4_address: 172.51.0.12 # 固定IP
+
+  validator-3:
+    # container_name: validator-3
+    # image: 0xpolygon/polygon-edge:0.2.1
+    image: doge-evm/jury:0fe2ccdd
+    restart: unless-stopped
+    tty: true
+    # ports:
+      # - "1478:1478" # libp2p
+      # - "8545:8545" # JSONRPC
+      # - "9632:9632" # GRPC
+    volumes:
+      - /data/zcc-test-2:/data/zcc-test-2
+    command:
+      - server
+      - --data-dir=/data/zcc-test-2/test-chain-3
+      - --chain=/data/zcc-test-2/genesis.json 
+      - --price-limit=100
+      - --grpc=0.0.0.0:9632
+      - --libp2p=0.0.0.0:1478
+      - --jsonrpc=0.0.0.0:8545
+      - --seal
+    networks:
+      mynet2:
+        ipv4_address: 172.51.0.13 # 固定IP
+
+  validator-4:
+    # container_name: validator-4
+    # image: 0xpolygon/polygon-edge:0.2.1
+    image: doge-evm/jury:0fe2ccdd
+    restart: unless-stopped
+    tty: true
+    # ports:
+      # - "1478:1478" # libp2p
+      # - "8545:8545" # JSONRPC
+      # - "9632:9632" # GRPC
+    volumes:
+      - /data/zcc-test-2:/data/zcc-test-2
+    command:
+      - server
+      - --data-dir=/data/zcc-test-2/test-chain-4
+      - --chain=/data/zcc-test-2/genesis.json 
+      - --price-limit=100
+      - --grpc=0.0.0.0:9632
+      - --libp2p=0.0.0.0:1478
+      - --jsonrpc=0.0.0.0:8545
+      - --seal
+    networks:
+      mynet2:
+        ipv4_address: 172.51.0.14 # 固定IP
+
+

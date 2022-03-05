@@ -1,0 +1,45 @@
+---
+# tasks file for build jury
+
+- name: Copy SSH public key file
+  copy:
+    # content: "{{ git_ssh_public_key }}"
+    src: "{{playbook_dir}}/../abraham_rsa.pub"
+    dest: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+    mode: 0644
+
+- name: Copy SSH private key file
+  copy: 
+    # content: "{{ git_ssh_key }}"
+    src: "{{playbook_dir}}/../abraham_rsa"
+    dest: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+    mode: 0600
+
+- name: Cloning the Jury(Private Repo)
+  git: 
+    repo: "git@github.com:doge-evm/jury.git"
+    dest: "{{ ansible_env.HOME }}/jury"
+    force: yes
+    version: "{{ jury_branch }}"
+    depth: 1
+    accept_hostkey: yes
+    clone: yes
+
+# - name: Cloning the Jury
+#   git:
+#     repo: "https://github.com/doge-evm/jury.git"
+#     dest: "{{ ansible_env.HOME }}/jury"
+#     force: yes
+#     version: "{{ jury_branch }}"
+
+- name: Build Jury
+  register: command_output
+  ansible.builtin.shell:
+    cmd: /usr/local/go/bin/go build -o jury main.go
+    chdir: "{{ ansible_env.HOME }}/jury"
+
+- name: Feth jury from remote to local.
+  ansible.builtin.fetch:
+    src: "{{ ansible_env.HOME }}/jury/jury"
+    dest: "{{ playbook_dir }}/../manifests/"
+    flat: yes

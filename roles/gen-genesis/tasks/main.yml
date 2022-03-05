@@ -1,0 +1,42 @@
+---
+# tasks file for generate genesis.json
+
+- name: Remove old secrets_nodeinfo_output directory
+  file:
+    path: "{{ ansible_env.HOME }}/jury-install/secrets_nodeinfo_output"
+    state: absent
+
+- name: Copy secrets_nodeinfo_output folder To Remote
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../manifests/secrets_nodeinfo_output"
+    dest: "{{ ansible_env.HOME }}/jury-install/"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: '0644'
+
+- name: Copy jury-gen-genesis.sh To Remote
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../manifests/jury-gen-genesis.sh"
+    dest: "{{ ansible_env.HOME }}/jury-install/"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: 0755
+
+- name: Remove genesis.json
+  file:
+    path: "{{ ansible_env.HOME }}/jury-install/genesis.json"
+    state: absent
+
+- name: Execute jury-gen-genesis.sh
+  command: "bash jury-gen-genesis.sh "
+  args:
+    chdir: "{{ ansible_env.HOME }}/jury-install/"
+
+- name: Feth genesis.json from remote to local.
+  ansible.builtin.fetch:
+    src: "{{ ansible_env.HOME }}/jury-install/genesis.json"
+    dest: "{{ playbook_dir }}/../manifests/genesis.json"
+    flat: yes
+
+
+

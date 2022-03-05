@@ -1,0 +1,5 @@
+---
+- name: Clear Jury Env
+  hosts: boot
+  roles:
+    - role: roles/clear

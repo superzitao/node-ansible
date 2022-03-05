@@ -1,0 +1,12 @@
+---
+# tasks file for ulimit_increase
+
+- name: Disabling SELinux state
+  become: true
+  selinux:
+    state: disabled
+
+- name: Rebooting the machine to apply the changes
+  reboot:
+  become: true
+

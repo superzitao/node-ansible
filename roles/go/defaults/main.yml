@@ -1,0 +1,10 @@
+---
+
+software_files_path: "/opt/software"
+software_install_path: "/usr/local"
+
+# https://go.dev/dl/go1.17.7.linux-amd64.tar.gz
+go_version: "1.17.7"
+go_file: "go{{ go_version }}.linux-amd64.tar.gz"
+go_file_path: "{{ software_files_path }}/{{ go_file }}"
+go_file_url: "https://go.dev/dl/{{ go_file }}"

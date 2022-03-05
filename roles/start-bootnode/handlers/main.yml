@@ -1,0 +1,17 @@
+---
+# reload handlers
+
+- name: reload jury
+  systemd:
+    name: jury
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+
+- name: restart jury
+  service:
+    name: jury
+    state: restarted
+  listen:
+    - "restart jury services"
+
