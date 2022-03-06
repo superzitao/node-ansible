@@ -2,4 +2,5 @@
 - name: Setup Prometheus
   hosts: boot
   roles:
+    - role: roles/setup-docker
     - role: roles/setup-prometheus
