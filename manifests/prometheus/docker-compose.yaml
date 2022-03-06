@@ -1,16 +1,5 @@
 version: "3.5"
 
-# networks:
-#   mynet2:
-#     ipam:
-#       config:
-#         - subnet: 172.51.0.0/16
-networks:
-  mynet:
-    external:
-       name: zcc-test-2_mynet2
-
-
 services:
   prometheus:
     # container_name: prometheus
@@ -19,8 +8,5 @@ services:
     tty: true
     volumes:
       # - /data/zcc-test-2/prometheus/data:/opt/bitnami/prometheus/data # all metrics are gauge, no need to store it.
-      - ./prometheus.yml:/opt/bitnami/prometheus/conf/prometheus.yml
-    networks:
-      mynet:
-        ipv4_address: 172.51.0.110
+      - /home/prometheus.yml:/opt/bitnami/prometheus/conf/prometheus.yml
 

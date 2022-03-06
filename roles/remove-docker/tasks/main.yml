@@ -1,0 +1,24 @@
+---
+
+- name: Stop Docker service 
+  become: true
+  ansible.builtin.systemd:
+    name: docker
+    state: stopped
+
+- name: Remove docker if installed from CentOS repo
+  become: true
+  yum:
+    name: "{{ item }}"
+    state: removed
+  with_items:
+    - docker
+    - docker-ce
+    - docker-ce-test
+    - docker-client
+    - docker-client-latest
+    - docker-common
+    - docker-latest
+    - docker-latest-logrotate
+    - docker-logrotate
+    - docker-engine

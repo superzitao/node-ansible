@@ -1,0 +1,5 @@
+---
+- name: Setup Prometheus
+  hosts: boot
+  roles:
+    - role: roles/setup-prometheus

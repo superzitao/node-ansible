@@ -1,0 +1,24 @@
+---
+- name: Remove old Prometheus directory
+  become: true
+  file:
+    path: "{{ ansible_env.HOME }}/jury-install/prometheus"
+    state: absent
+
+- name: Copy Prometheus folder To Remote
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../manifests/prometheus"
+    dest: "{{ ansible_env.HOME }}/jury-install/"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: '0655'
+
+- name: Execute update-config.sh
+  command: "bash update-config.sh"
+  args:
+    chdir: "{{ ansible_env.HOME }}/jury-install/prometheus/"
+
+- name: Run Prometheus container
+  shell:
+    cmd: "/usr/local/bin/docker-compose -f docker-compose.yaml up -d"
+    chdir: "{{ ansible_env.HOME }}/jury-install/prometheus/"
