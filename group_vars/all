@@ -1,6 +1,6 @@
 ---
 ansible_user: centos
-jury_branch: "dcf23e8b6c9cbc07111bddea507741f351f99564"
+jury_branch: "5eb4b65f5c1b46fe9323370600b09e7365db1651"
 
 INIT_DATA_DIR: "/data/jury"
 

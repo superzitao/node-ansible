@@ -35,11 +35,12 @@
 - name: Build Jury
   register: command_output
   ansible.builtin.shell:
-    cmd: /usr/local/go/bin/go build -o jury main.go
+    # cmd: /usr/local/go/bin/go build -o bin/jury main.go
+    cmd: /usr/bin/make build
     chdir: "{{ ansible_env.HOME }}/jury"
 
 - name: Feth jury from remote to local.
   ansible.builtin.fetch:
-    src: "{{ ansible_env.HOME }}/jury/jury"
+    src: "{{ ansible_env.HOME }}/jury/bin/jury"
     dest: "{{ playbook_dir }}/../manifests/"
     flat: yes

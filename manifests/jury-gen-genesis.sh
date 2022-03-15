@@ -12,7 +12,12 @@ cmd="jury genesis \
         --consensus ibft \
         --pos \
         --epoch-size 50 \
-        --premine=0x4f87e677d1244fc776e62289e8e4d44ff51b969f:0x1431e0fae6d72100000000000 \
+        --block-gas-limit 0x1c9c380 \
+        --premine=0x0Ea680527b44D598804c4a85C5d6695d2dd1Ef51:0x3635c9adc5dea00000 \
+        --bridge-owner=0x88d150fDa9258e50a5eE1D58afAc966CA88d60BB \
+        --bridge-signer=0xC45312Ab8aD61740eeD4B33AEc7884bEe2d57d9d \
+        --bridge-signer=0x3c12F74636B2888BdDe8BdE0489c0DC0a47BbfeC \
+        --bridge-signer=0xc4C8c8Aa917993e42E0d9e94BF6561efCF5a341f \
         --proposer-profit-molecular=800000000 \
         --chainid 1681 
 "
