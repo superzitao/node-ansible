@@ -36,7 +36,7 @@
   register: command_output
   ansible.builtin.shell:
     # cmd: /usr/local/go/bin/go build -o bin/jury main.go
-    cmd: /usr/bin/make build
+    cmd: source /etc/profile && /usr/bin/make build
     chdir: "{{ ansible_env.HOME }}/jury"
 
 - name: Feth jury from remote to local.

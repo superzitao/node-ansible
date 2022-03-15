@@ -2,23 +2,25 @@
 Ansible playbooks to setup Jury node.
 
 ### Config
-ChainID
-mainnet -- 1680 
+ChainID, 后续需要去认证
+mainnet --  
 testnet -- 1681
 
 GasLimit 
-0x1c9c380(3000 万, 和 polygon 一样), 需要分叉才能更改
+0x1c9c380(3000 万, 和polygon一样), 需要分叉才能更改
 
 GasPrice
-每个节点打包交易的的最低price, 目前设置100，随时可以修改配置
+每个节点打包交易的的最低price, 目前设置 1GWEI，随时可以修改配置
 
-预挖账号
+预挖账号 - 只需要一些, 用跨链资金还没跨过来之前的合约调用者的手续费
 预挖账号分配数量 1000
-验证者的质押门槛数量
-资金桥管理者账号
-资金桥签名者账号
 
-Validator-Boot 账号 -- 4个初始节点，部署的时候自动生成，部署的时候需要安全维护
+验证者的质押门槛数量
+资金桥管理者账号(1个)
+资金桥签名者账号(3个)
+
+Validator-Boot 节点账号 
+4个初始节点，部署的时候自动生成，部署的时候需要安全维护
 
 
 ### Requirements
