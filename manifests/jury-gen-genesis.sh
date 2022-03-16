@@ -8,7 +8,7 @@ addresses=`cat secrets_nodeinfo_output/node_address_output-*`
 echo $addresses
 
 cmd="jury genesis \
-        --name doge \
+        --name teddy \
         --consensus ibft \
         --pos \
         --epoch-size 50 \

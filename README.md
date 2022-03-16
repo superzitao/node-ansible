@@ -41,7 +41,6 @@ ansible-playbook -l build playbooks/gen-genesis.yml
 # start jury service on boot node
 ansible-playbook -l boot playbooks/start-bootnode.yml
 
-
 ansible-playbook -l boot playbooks/clear.yml
 
 ```
