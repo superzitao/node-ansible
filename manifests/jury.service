@@ -6,7 +6,7 @@
 [Service]
   Restart=on-failure
   RestartSec=5s
-  ExecStart=/usr/bin/jury server --data-dir /data/jury --chain /data/jury/genesis.json --price-limit=1000000000 --seal --log-level debug
+  ExecStart=/usr/bin/jury server --data-dir /data/jury --chain /data/jury/genesis.json --price-limit=100000000000 --seal --log-level debug
   Type=simple
   User=$USER
   KillSignal=SIGINT

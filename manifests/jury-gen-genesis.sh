@@ -19,7 +19,7 @@ cmd="jury genesis \
         --bridge-signer=0x3c12F74636B2888BdDe8BdE0489c0DC0a47BbfeC \
         --bridge-signer=0xc4C8c8Aa917993e42E0d9e94BF6561efCF5a341f \
         --proposer-profit-molecular=800000000 \
-        --chainid 1681 
+        --chainid 568 
 "
 
 echo "org cmd:"

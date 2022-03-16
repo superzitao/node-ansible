@@ -3,14 +3,14 @@ Ansible playbooks to setup Jury node.
 
 ### Config
 ChainID, 后续需要去认证
-mainnet --  
-testnet -- 1681
+mainnet -- 2000 
+testnet -- 568 teddy
 
 GasLimit 
 0x1c9c380(3000 万, 和polygon一样), 需要分叉才能更改
 
 GasPrice
-每个节点打包交易的的最低price, 目前设置 1GWEI，随时可以修改配置
+每个节点打包交易的的最低price, 目前设置 100GWEI，随时可以修改配置
 
 预挖账号 - 只需要一些, 用跨链资金还没跨过来之前的合约调用者的手续费
 预挖账号分配数量 1000
